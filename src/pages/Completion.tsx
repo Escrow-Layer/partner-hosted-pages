@@ -1,11 +1,8 @@
-import { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
-import DealSummary from "@/components/DealSummary";
-import StatusBar from "@/components/StatusBar";
 import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
@@ -13,7 +10,6 @@ import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 const Completion = () => {
   const [searchParams] = useSearchParams();
   const { escrowId: urlEscrowId } = useParams();
-  const [countdown, setCountdown] = useState(10);
   
   const escrowId = urlEscrowId || searchParams.get("escrow");
   const status = searchParams.get("status");
@@ -31,18 +27,6 @@ const Completion = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Deal Summary - Always at top */}
-        <div className="mb-6">
-          {escrowData && (
-            <DealSummary escrowData={escrowData} />
-          )}
-        </div>
-
-        {/* Status Bar */}
-        <div className="mb-8">
-          <StatusBar currentStep="completed" />
-        </div>
-        
         <div className="text-center mb-8">
           <div className="mb-4">
             {isSuccess ? (
