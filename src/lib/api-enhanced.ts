@@ -270,13 +270,7 @@ export const sendWebhookNotification = async (
   const escrowData = mockEscrowData[escrowId];
   if (!escrowData?.webhookUrl) return;
 
-  // Simulate webhook call
-  console.log(`Webhook notification sent to ${escrowData.webhookUrl}:`, {
-    escrowId,
-    event,
-    timestamp: new Date().toISOString(),
-    data,
-  });
+  // Simulate webhook call - debug logging removed for production
 };
 
 // Enhanced escrow resolution

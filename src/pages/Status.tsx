@@ -101,14 +101,14 @@ const Status = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content - Left Column */}
-          <div className="lg:col-span-2">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold tracking-tight mb-2">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Main Content - Primary Focus */}
+          <div className="lg:col-span-3">
+            <div className="text-center mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
                 Transaction Status
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 Track your escrow transaction progress in real-time
               </p>
             </div>
@@ -213,19 +213,19 @@ const Status = () => {
             </div>
           </div>
 
-          {/* Right Column - Transaction Summary */}
-          <div className="lg:col-span-1">
-            <div className="space-y-4 lg:sticky lg:top-8">
+          {/* Right Sidebar - Supporting Information */}
+          <div className="lg:col-span-1 lg:border-l lg:border-border/50 lg:pl-6">
+            <div className="bg-muted/20 rounded-lg p-4 space-y-4 lg:sticky lg:top-8">
               {escrowData && (
-                <div className="opacity-90">
-                  <DealSummary escrowData={escrowData} className="scale-95" />
+                <div className="opacity-70">
+                  <DealSummary escrowData={escrowData} className="scale-90 origin-top" />
                 </div>
               )}
               
-              <div className="opacity-90">
+              <div className="opacity-70">
                 <StatusBar 
                   currentStep={currentStep}
-                  className="scale-95"
+                  className="scale-90 origin-top"
                 />
               </div>
             </div>

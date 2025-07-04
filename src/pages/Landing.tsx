@@ -65,8 +65,6 @@ const Landing = () => {
   };
 
   const handleCustomFieldsSubmit = (values: Record<string, string>) => {
-    console.log("Custom fields submitted:", values);
-    
     // In a real app, you'd update the escrow data via API
     toast({
       title: "Information Updated",
