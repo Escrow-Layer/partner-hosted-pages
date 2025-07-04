@@ -100,25 +100,22 @@ const Status = () => {
     <div className="min-h-screen bg-background">
       <Header partnerBranding={escrowData?.partnerBranding} />
       
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="space-y-4 mb-8">
-          {escrowData && (
-            <DealSummary escrowData={escrowData} />
-          )}
-          
-          <StatusBar currentStep={currentStep} />
-          
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight mb-2">
-              Escrow Status
-            </h1>
-            <p className="text-muted-foreground">
-              Track your transaction progress in real-time
-            </p>
-          </div>
-        </div>
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2 space-y-6">
+            <StatusBar currentStep={currentStep} />
+            
+            <div className="text-center">
+              <h1 className="text-3xl font-bold tracking-tight mb-2">
+                Escrow Status
+              </h1>
+              <p className="text-muted-foreground">
+                Track your transaction progress in real-time
+              </p>
+            </div>
 
-        <Card className="mb-6 border-l-4 border-l-primary">
+        <Card className="border-l-4 border-l-primary">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -161,57 +158,68 @@ const Status = () => {
           </CardContent>
         </Card>
 
-        {escrowData?.milestones ? (
-          <MilestoneTracker 
-            milestones={escrowData.milestones}
-            currentMilestone={escrowData.milestones.find(m => m.status === 'in_progress')?.id}
-          />
-        ) : (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Transaction Timeline</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Timeline 
-                statusHistory={statusHistory}
-                currentStatus={currentStatus}
+            {escrowData?.milestones ? (
+              <MilestoneTracker 
+                milestones={escrowData.milestones}
+                currentMilestone={escrowData.milestones.find(m => m.status === 'in_progress')?.id}
               />
-            </CardContent>
-          </Card>
-        )}
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Transaction Timeline</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Timeline 
+                    statusHistory={statusHistory}
+                    currentStatus={currentStatus}
+                  />
+                </CardContent>
+              </Card>
+            )}
 
-        <div className="flex flex-col gap-3">
-          <Button 
-            onClick={() => window.location.reload()}
-            variant="outline"
-            className="w-full"
-            disabled={currentStatus === "released"}
-          >
-            {currentStatus === "released" ? "Redirecting..." : "Refresh Status"}
-          </Button>
+            <div className="flex flex-col gap-3">
+              <Button 
+                onClick={() => window.location.reload()}
+                variant="outline"
+                className="w-full"
+                disabled={currentStatus === "released"}
+              >
+                {currentStatus === "released" ? "Redirecting..." : "Refresh Status"}
+              </Button>
+              
+              {currentStatus === "released" && (
+                <Button
+                  onClick={() => {
+                    if (urlEscrowId) {
+                      navigate(`/escrow/${urlEscrowId}/completion?status=success`);
+                    } else {
+                      navigate(`/completion?escrow=${escrowId}&status=success`);
+                    }
+                  }}
+                  className="w-full"
+                >
+                  View Results Now
+                </Button>
+              )}
+              
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">
+                  {currentStatus === "released" 
+                    ? "Automatically redirecting to results page..." 
+                    : "Status updates automatically every 3 seconds"
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
           
-          {currentStatus === "released" && (
-            <Button
-              onClick={() => {
-                if (urlEscrowId) {
-                  navigate(`/escrow/${urlEscrowId}/completion?status=success`);
-                } else {
-                  navigate(`/completion?escrow=${escrowId}&status=success`);
-                }
-              }}
-              className="w-full"
-            >
-              View Results Now
-            </Button>
-          )}
-          
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              {currentStatus === "released" 
-                ? "Automatically redirecting to results page..." 
-                : "Status updates automatically every 3 seconds"
-              }
-            </p>
+          {/* Right Sidebar - Deal Summary */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-4">
+              {escrowData && (
+                <DealSummary escrowData={escrowData} />
+              )}
+            </div>
           </div>
         </div>
       </main>

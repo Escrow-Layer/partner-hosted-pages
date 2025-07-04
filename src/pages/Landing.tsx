@@ -163,8 +163,6 @@ const Landing = () => {
       
       <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl touch-manipulation">
         <div className="animate-fade-in">
-          <DealSummary escrowData={escrowData} className="mb-4" />
-          
           <StatusBar currentStep="waiting" className="mb-6" />
           
           <EscrowHeader 
