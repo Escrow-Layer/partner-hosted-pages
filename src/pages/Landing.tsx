@@ -9,7 +9,7 @@ import TransactionDetails from "@/components/TransactionDetails";
 import ChainSelector from "@/components/ChainSelector";
 import TrustIndicators from "@/components/TrustIndicators";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import DealSummary from "@/components/DealSummary";
+
 import StatusBar from "@/components/StatusBar";
 import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
