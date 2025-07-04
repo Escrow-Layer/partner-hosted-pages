@@ -173,7 +173,7 @@ const Admin = () => {
     <div className="min-h-screen bg-background">
       <AdminHeader partnerName={config.name} partnerLogo={config.logo} />
       
-      <main className="container mx-auto px-4 py-8 max-w-7xl pb-20">
+      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-7xl pb-20">
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight mb-2">
             Partner Configuration
@@ -184,27 +184,27 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="basic" className="flex items-center gap-2">
-              <Building className="h-4 w-4" />
-              Basic Settings
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
+            <TabsTrigger value="basic" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3">
+              <Building className="h-4 w-4 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Basic Settings</span>
             </TabsTrigger>
-            <TabsTrigger value="payment" className="flex items-center gap-2">
-              <Wallet className="h-4 w-4" />
-              Payment & Wallet
+            <TabsTrigger value="payment" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3">
+              <Wallet className="h-4 w-4 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Payment & Wallet</span>
             </TabsTrigger>
-            <TabsTrigger value="branding" className="flex items-center gap-2">
-              <Palette className="h-4 w-4" />
-              Branding
+            <TabsTrigger value="branding" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3">
+              <Palette className="h-4 w-4 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Branding</span>
             </TabsTrigger>
-            <TabsTrigger value="advanced" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              Advanced
+            <TabsTrigger value="advanced" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3">
+              <Settings className="h-4 w-4 flex-shrink-0" />
+              <span className="text-xs sm:text-sm">Advanced</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="basic" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="basic" className="space-y-4 sm:space-y-6 mt-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
               {/* Brand Identity */}
               <Card>
                 <CardHeader>
@@ -335,8 +335,8 @@ const Admin = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="payment" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="payment" className="space-y-4 sm:space-y-6 mt-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
               {/* Wallet Settings */}
               <Card>
                 <CardHeader>
@@ -411,11 +411,11 @@ const Admin = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="default-currency">Default Currency</Label>
+                      <Label htmlFor="default-currency" className="text-sm font-medium">Default Currency</Label>
                       <Select value={config.defaultCurrency} onValueChange={(value) => updateConfig("defaultCurrency", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -428,9 +428,9 @@ const Admin = () => {
                     </div>
                     
                     <div>
-                      <Label htmlFor="default-network">Default Network</Label>
+                      <Label htmlFor="default-network" className="text-sm font-medium">Default Network</Label>
                       <Select value={config.defaultNetwork} onValueChange={(value) => updateConfig("defaultNetwork", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -491,8 +491,8 @@ const Admin = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="branding" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="branding" className="space-y-4 sm:space-y-6 mt-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
               {/* Branding & Appearance */}
               <Card>
                 <CardHeader>
@@ -502,65 +502,68 @@ const Admin = () => {
                     <HelpTooltip content="Customize the visual appearance of your escrow pages" />
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
+                <CardContent className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <Label htmlFor="primary-color">Primary Color</Label>
-                      <div className="flex gap-2">
+                      <Label htmlFor="primary-color" className="text-sm font-medium">Primary Color</Label>
+                      <div className="flex gap-2 mt-2">
                         <Input
                           type="color"
                           value={config.primaryColor}
                           onChange={(e) => updateConfig("primaryColor", e.target.value)}
-                          className="w-12 h-10 p-1"
+                          className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
                           value={config.primaryColor}
                           onChange={(e) => updateConfig("primaryColor", e.target.value)}
                           placeholder="#000000"
+                          className="flex-1"
                         />
                       </div>
                     </div>
                     
                     <div>
-                      <Label htmlFor="secondary-color">Secondary</Label>
-                      <div className="flex gap-2">
+                      <Label htmlFor="secondary-color" className="text-sm font-medium">Secondary</Label>
+                      <div className="flex gap-2 mt-2">
                         <Input
                           type="color"
                           value={config.secondaryColor}
                           onChange={(e) => updateConfig("secondaryColor", e.target.value)}
-                          className="w-12 h-10 p-1"
+                          className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
                           value={config.secondaryColor}
                           onChange={(e) => updateConfig("secondaryColor", e.target.value)}
                           placeholder="#666666"
+                          className="flex-1"
                         />
                       </div>
                     </div>
                     
                     <div>
-                      <Label htmlFor="accent-color">Accent</Label>
-                      <div className="flex gap-2">
+                      <Label htmlFor="accent-color" className="text-sm font-medium">Accent</Label>
+                      <div className="flex gap-2 mt-2">
                         <Input
                           type="color"
                           value={config.accentColor}
                           onChange={(e) => updateConfig("accentColor", e.target.value)}
-                          className="w-12 h-10 p-1"
+                          className="w-12 h-10 p-1 border rounded"
                         />
                         <Input
                           value={config.accentColor}
                           onChange={(e) => updateConfig("accentColor", e.target.value)}
                           placeholder="#333333"
+                          className="flex-1"
                         />
                       </div>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="font-family">Font Family</Label>
+                      <Label htmlFor="font-family" className="text-sm font-medium">Font Family</Label>
                       <Select value={config.fontFamily} onValueChange={(value) => updateConfig("fontFamily", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -573,9 +576,9 @@ const Admin = () => {
                     </div>
                     
                     <div>
-                      <Label htmlFor="button-style">Button Style</Label>
+                      <Label htmlFor="button-style" className="text-sm font-medium">Button Style</Label>
                       <Select value={config.buttonStyle} onValueChange={(value) => updateConfig("buttonStyle", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-2">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -652,7 +655,7 @@ const Admin = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="advanced" className="space-y-6">
+          <TabsContent value="advanced" className="space-y-4 sm:space-y-6 mt-6">
             {/* Workflow Options */}
             <Card>
               <CardHeader>
@@ -662,29 +665,31 @@ const Admin = () => {
                   <HelpTooltip content="Configure advanced escrow workflow features" />
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label htmlFor="milestone-payments">Milestone Payments</Label>
-                      <p className="text-sm text-muted-foreground">Enable step-by-step payment releases</p>
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <Label htmlFor="milestone-payments" className="text-sm font-medium">Milestone Payments</Label>
+                      <p className="text-sm text-muted-foreground mt-1">Enable step-by-step payment releases</p>
                     </div>
                     <Switch
                       id="milestone-payments"
                       checked={config.milestonePayments}
                       onCheckedChange={(checked) => updateConfig("milestonePayments", checked)}
+                      className="flex-shrink-0"
                     />
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label htmlFor="dispute-resolution">Dispute Resolution</Label>
-                      <p className="text-sm text-muted-foreground">Enable dispute handling module</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <Label htmlFor="dispute-resolution" className="text-sm font-medium">Dispute Resolution</Label>
+                      <p className="text-sm text-muted-foreground mt-1">Enable dispute handling module</p>
                     </div>
                     <Switch
                       id="dispute-resolution"
                       checked={config.disputeResolution}
                       onCheckedChange={(checked) => updateConfig("disputeResolution", checked)}
+                      className="flex-shrink-0"
                     />
                   </div>
                 </div>
