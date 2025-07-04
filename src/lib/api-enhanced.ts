@@ -91,10 +91,7 @@ const mockEscrowData: Record<string, EscrowData> = {
     partnerId: 'flippa',
     customFields: [
       { id: 'domain', label: 'Domain Name', value: 'business.com', type: 'text', required: true },
-      { id: 'registrar', label: 'Current Registrar', value: 'Namecheap', type: 'text' },
-      { id: 'transfer_code', label: 'EPP Transfer Code', value: 'EPP-BIZ-789456', type: 'text', required: true },
-      { id: 'valuation', label: 'Domain Valuation', value: '$120,000 USD', type: 'text' },
-      { id: 'traffic', label: 'Monthly Traffic', value: '50,000+ unique visitors', type: 'text' },
+      { id: 'transfer_code', label: 'Transfer Authorization', value: 'Verified', type: 'text', required: true },
     ],
     milestones: [
       {

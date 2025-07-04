@@ -9,6 +9,7 @@ import Landing from "./pages/Landing";
 import Deposit from "./pages/Deposit";
 import Status from "./pages/Status";
 import Completion from "./pages/Completion";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/escrow/:escrowId/deposit" element={<Deposit />} />
               <Route path="/escrow/:escrowId/status" element={<Status />} />
               <Route path="/escrow/:escrowId/completion" element={<Completion />} />
+              <Route path="/admin" element={<Admin />} />
               {/* Legacy routes for backward compatibility */}
               <Route path="/deposit" element={<Deposit />} />
               <Route path="/status" element={<Status />} />
