@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import QRCodeDisplay from "@/components/QRCodeDisplay";
 import Header from "@/components/Header";
+import DealSummary from "@/components/DealSummary";
+import StatusBar, { EscrowStep } from "@/components/StatusBar";
+import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 import { getDepositAddress } from "@/lib/api-enhanced";
@@ -20,6 +23,7 @@ const Deposit = () => {
   const [depositAddress, setDepositAddress] = useState("");
   const [isBridging, setIsBridging] = useState(false);
   const [addressLoading, setAddressLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState<EscrowStep>("waiting");
 
   const chain = searchParams.get("chain");
   const escrowId = urlEscrowId || searchParams.get("escrow");
@@ -114,17 +118,25 @@ const Deposit = () => {
     tron: { name: "Tron", symbol: "TRX", estimatedFee: "$1-2" },
   }[chain as string] || { name: "Unknown", symbol: "?", estimatedFee: "Unknown" };
 
-  // Simulate deposit detection after 3 seconds
+  // Simulate deposit detection and progression
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsBridging(true);
+    const timer1 = setTimeout(() => {
+      setCurrentStep("detected");
       toast({
         title: "Deposit Detected",
         description: "Your transaction has been detected and is being processed",
       });
     }, 5000);
 
-    return () => clearTimeout(timer);
+    const timer2 = setTimeout(() => {
+      setCurrentStep("bridging");
+      setIsBridging(true);
+    }, 7000);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, [toast]);
 
   return (
@@ -132,24 +144,24 @@ const Deposit = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Send {chainInfo.symbol} Deposit
-          </h1>
-          <p className="text-muted-foreground mb-4">
-            Send your deposit to the address below to continue the escrow
-          </p>
+        <div className="space-y-4 mb-8">
           {escrowData && (
-            <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 max-w-md mx-auto">
-              <div className="text-sm text-muted-foreground mb-1">Transaction Amount</div>
-              <div className="text-3xl font-bold text-primary">
-                {escrowData.amount} {escrowData.asset}
-              </div>
-              <div className="text-sm text-muted-foreground mt-1">
-                {escrowData.description}
-              </div>
-            </div>
+            <DealSummary escrowData={escrowData} />
           )}
+          
+          <StatusBar 
+            currentStep={currentStep} 
+            bridgeProgress={bridgeProgress}
+          />
+          
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight mb-2">
+              Send {chainInfo.symbol} Deposit
+            </h1>
+            <p className="text-muted-foreground">
+              Send your deposit to the address below to continue the escrow
+            </p>
+          </div>
         </div>
 
         <Card className="mb-6">
@@ -242,6 +254,8 @@ const Deposit = () => {
           </div>
         </div>
       </main>
+      
+      <HelpButton />
     </div>
   );
 };

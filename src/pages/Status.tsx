@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import Timeline from "@/components/Timeline";
 import Header from "@/components/Header";
 import MilestoneTracker from "@/components/MilestoneTracker";
+import DealSummary from "@/components/DealSummary";
+import StatusBar, { EscrowStep } from "@/components/StatusBar";
+import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 
@@ -24,6 +27,7 @@ const Status = () => {
   const { escrowId: urlEscrowId } = useParams();
   const [currentStatus, setCurrentStatus] = useState<EscrowStatus>("initiated");
   const [statusHistory, setStatusHistory] = useState<StatusUpdate[]>([]);
+  const [currentStep, setCurrentStep] = useState<EscrowStep>("funded");
 
   const escrowId = urlEscrowId || searchParams.get("escrow");
   
@@ -97,13 +101,21 @@ const Status = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Escrow Status
-          </h1>
-          <p className="text-muted-foreground">
-            Track your transaction progress in real-time
-          </p>
+        <div className="space-y-4 mb-8">
+          {escrowData && (
+            <DealSummary escrowData={escrowData} />
+          )}
+          
+          <StatusBar currentStep={currentStep} />
+          
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight mb-2">
+              Escrow Status
+            </h1>
+            <p className="text-muted-foreground">
+              Track your transaction progress in real-time
+            </p>
+          </div>
         </div>
 
         <Card className="mb-6 border-l-4 border-l-primary">
@@ -203,6 +215,8 @@ const Status = () => {
           </div>
         </div>
       </main>
+      
+      <HelpButton />
     </div>
   );
 };

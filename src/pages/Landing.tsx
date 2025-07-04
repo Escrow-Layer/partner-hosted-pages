@@ -9,6 +9,9 @@ import TransactionDetails from "@/components/TransactionDetails";
 import ChainSelector from "@/components/ChainSelector";
 import TrustIndicators from "@/components/TrustIndicators";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import DealSummary from "@/components/DealSummary";
+import StatusBar from "@/components/StatusBar";
+import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 import { useToast } from "@/hooks/use-toast";
@@ -160,6 +163,10 @@ const Landing = () => {
       
       <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl touch-manipulation">
         <div className="animate-fade-in">
+          <DealSummary escrowData={escrowData} className="mb-4" />
+          
+          <StatusBar currentStep="waiting" className="mb-6" />
+          
           <EscrowHeader 
             title="Secure Premium Domain Escrow"
             description="Complete your business.com acquisition with blockchain-secured escrow"
@@ -188,6 +195,8 @@ const Landing = () => {
       </main>
       
       <Footer partnerBranding={escrowData?.partnerBranding} />
+      
+      <HelpButton />
       
       <ConfirmationDialog
         open={showConfirmation}

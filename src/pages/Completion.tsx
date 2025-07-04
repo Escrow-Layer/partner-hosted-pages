@@ -4,6 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
+import DealSummary from "@/components/DealSummary";
+import StatusBar from "@/components/StatusBar";
+import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 
@@ -28,32 +31,40 @@ const Completion = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="text-center mb-8">
-          <div className="mb-4">
-            {isSuccess ? (
-              <div className="w-16 h-16 mx-auto bg-success rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-success-foreground" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </div>
-            ) : (
-              <div className="w-16 h-16 mx-auto bg-destructive rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-destructive-foreground" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </div>
-            )}
-          </div>
+        <div className="space-y-4 mb-8">
+          {escrowData && (
+            <DealSummary escrowData={escrowData} />
+          )}
           
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            {isSuccess ? "Escrow Completed!" : "Escrow Failed"}
-          </h1>
-          <p className="text-muted-foreground">
-            {isSuccess 
-              ? "Your transaction has been successfully completed"
-              : "There was an issue with your transaction"
-            }
-          </p>
+          <StatusBar currentStep="completed" />
+          
+          <div className="text-center">
+            <div className="mb-4">
+              {isSuccess ? (
+                <div className="w-16 h-16 mx-auto bg-success rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-success-foreground" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              ) : (
+                <div className="w-16 h-16 mx-auto bg-destructive rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-destructive-foreground" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              )}
+            </div>
+            
+            <h1 className="text-3xl font-bold tracking-tight mb-2">
+              {isSuccess ? "Escrow Completed!" : "Escrow Failed"}
+            </h1>
+            <p className="text-muted-foreground">
+              {isSuccess 
+                ? "Your transaction has been successfully completed"
+                : "There was an issue with your transaction"
+              }
+            </p>
+          </div>
         </div>
 
         <Card className="mb-6">
@@ -192,6 +203,8 @@ const Completion = () => {
           </CardContent>
         </Card>
       </main>
+      
+      <HelpButton />
     </div>
   );
 };
