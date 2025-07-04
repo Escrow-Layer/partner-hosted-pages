@@ -166,13 +166,13 @@ const Landing = () => {
           />
         </div>
 
-        <div className="space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="space-y-4 sm:space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <TransactionDetails escrowData={escrowData} />
 
-          {/* Enhanced payment section with visual hierarchy */}
+          {/* Enhanced payment section with improved mobile layout */}
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl blur-xl transition-all duration-300 group-hover:blur-2xl"></div>
-            <div className="relative bg-card border border-primary/20 rounded-xl p-1 transition-all duration-300 hover:border-primary/30 hover:shadow-lg">
+            <div className="relative bg-card border border-primary/20 rounded-xl p-2 sm:p-4 transition-all duration-300 hover:border-primary/30 hover:shadow-lg">
               <ChainSelector 
                 selectedChain={selectedChain}
                 onChainChange={setSelectedChain}

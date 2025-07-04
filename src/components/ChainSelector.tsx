@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Shield } from "lucide-react";
 
 const SUPPORTED_CHAINS = [
   { id: "ethereum", name: "Ethereum", symbol: "ETH" },
@@ -39,28 +40,47 @@ const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelect
           Choose Payment Network
         </CardTitle>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Select your preferred blockchain network for secure USDC payment. 
-          <span className="block mt-1 text-xs">
-            💡 <strong>Recommended:</strong> Ethereum for maximum security, Base/Arbitrum for lower fees
-          </span>
+          Select your preferred blockchain network for secure USDC payment.
         </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <span className="w-2 h-2 bg-success rounded-full"></span>
+            <span>Low fees: Base, Arbitrum</span>
+          </div>
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <span className="w-2 h-2 bg-primary rounded-full"></span>
+            <span>Most secure: Ethereum</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-6 pt-2">
         <Select value={selectedChain} onValueChange={onChainChange}>
-          <SelectTrigger className="h-12 text-left">
+          <SelectTrigger className="h-14 text-left border-2 hover:border-primary/30 transition-colors">
             <SelectValue placeholder="Choose your preferred payment network" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="w-full">
             {SUPPORTED_CHAINS.map((chain) => (
-              <SelectItem key={chain.id} value={chain.id} className="p-3">
+              <SelectItem key={chain.id} value={chain.id} className="p-4 cursor-pointer">
                 <div className="flex items-center justify-between w-full gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                      <span className="text-xs font-mono">{chain.symbol.slice(0, 2)}</span>
+                    <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center border">
+                      <span className="text-sm font-bold">{chain.symbol.slice(0, 2)}</span>
                     </div>
-                    <span className="font-medium">{chain.name}</span>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{chain.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {chain.id === 'ethereum' && 'Most secure & established'}
+                        {chain.id === 'arbitrum' && 'Low fees & fast'}
+                        {chain.id === 'base' && 'Coinbase L2, reliable'}
+                        {chain.id === 'solana' && 'High performance'}
+                        {chain.id === 'tron' && 'Low fees'}
+                      </span>
+                    </div>
                   </div>
-                  <Badge variant="outline" className="text-xs">
+                  <Badge 
+                    variant={chain.id === 'ethereum' ? 'default' : 'outline'} 
+                    className="text-xs font-mono"
+                  >
                     {chain.symbol}
                   </Badge>
                 </div>
@@ -69,11 +89,11 @@ const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelect
           </SelectContent>
         </Select>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           <Button 
             onClick={onContinue}
             disabled={!selectedChain}
-            className="w-full font-semibold"
+            className="w-full font-semibold h-12 text-base"
             size="lg"
           >
             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -82,10 +102,16 @@ const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelect
             Continue to Secure Payment
           </Button>
           
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              🔒 Your transaction is protected by smart contract escrow
+          <div className="text-center space-y-1">
+            <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+              <Shield className="h-3 w-3" />
+              Smart contract protection ensures secure transactions
             </p>
+            {selectedChain && (
+              <p className="text-xs text-primary font-medium">
+                Selected: {SUPPORTED_CHAINS.find(c => c.id === selectedChain)?.name}
+              </p>
+            )}
           </div>
         </div>
       </CardContent>

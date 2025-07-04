@@ -9,17 +9,17 @@ interface TransactionDetailsProps {
 const TransactionDetails = ({ escrowData }: TransactionDetailsProps) => {
   return (
     <Card className="mb-6">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          {escrowData.description}
-          <Badge variant="secondary">#{escrowData.id}</Badge>
+      <CardHeader className="pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <span className="text-base sm:text-lg">{escrowData.description}</span>
+          <Badge variant="secondary" className="self-start sm:self-center">#{escrowData.id}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-4">
-          <div className="bg-accent/50 p-4 rounded-lg">
+          <div className="bg-accent/50 p-4 sm:p-6 rounded-lg">
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary mb-1">
+              <div className="text-xl sm:text-2xl font-bold text-primary mb-1">
                 {Number(escrowData.amount).toLocaleString()} {escrowData.asset}
               </div>
               <div className="text-sm text-muted-foreground">Transaction Value</div>

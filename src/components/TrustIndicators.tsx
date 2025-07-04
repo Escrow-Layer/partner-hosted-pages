@@ -9,8 +9,8 @@ const TrustIndicators = () => {
             <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">Blockchain Secured</p>
-            <p className="text-xs text-muted-foreground">Smart contract escrow</p>
+            <p className="font-medium text-sm sm:text-base">Blockchain-Based</p>
+            <p className="text-xs text-muted-foreground">Smart contract technology</p>
           </div>
         </div>
         
@@ -19,8 +19,8 @@ const TrustIndicators = () => {
             <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-success" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">Verified Secure</p>
-            <p className="text-xs text-muted-foreground">SSL & audit certified</p>
+            <p className="font-medium text-sm sm:text-base">SSL Protected</p>
+            <p className="text-xs text-muted-foreground">Industry-standard encryption</p>
           </div>
         </div>
         
@@ -29,8 +29,8 @@ const TrustIndicators = () => {
             <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">10,000+ Transactions</p>
-            <p className="text-xs text-muted-foreground">Trusted by businesses</p>
+            <p className="font-medium text-sm sm:text-base">Business-Ready</p>
+            <p className="text-xs text-muted-foreground">Professional platform</p>
           </div>
         </div>
 
@@ -39,8 +39,8 @@ const TrustIndicators = () => {
             <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-warning" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">24/7 Support</p>
-            <p className="text-xs text-muted-foreground">Expert assistance</p>
+            <p className="font-medium text-sm sm:text-base">Support Available</p>
+            <p className="text-xs text-muted-foreground">Technical assistance</p>
           </div>
         </div>
       </div>
