@@ -39,18 +39,18 @@ const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelect
           </div>
           Choose Payment Network
         </CardTitle>
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
           Select your preferred blockchain network for secure USDC payment.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <div className="flex items-center gap-1 text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+          <span className="flex items-center gap-1">
             <span className="w-2 h-2 bg-success rounded-full"></span>
-            <span>Low fees: Base, Arbitrum</span>
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground">
+            Low fees: Base, Arbitrum
+          </span>
+          <span className="flex items-center gap-1">
             <span className="w-2 h-2 bg-primary rounded-full"></span>
-            <span>Most secure: Ethereum</span>
-          </div>
+            Most secure: Ethereum
+          </span>
         </div>
       </CardHeader>
       <CardContent className="space-y-6 pt-2">
@@ -102,7 +102,7 @@ const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelect
             Continue to Secure Payment
           </Button>
           
-          <div className="text-center space-y-1">
+          <div className="text-center space-y-2">
             <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
               <Shield className="h-3 w-3" />
               Smart contract protection ensures secure transactions
