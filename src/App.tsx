@@ -23,6 +23,11 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/escrow/:escrowId" element={<Landing />} />
+              <Route path="/escrow/:escrowId/deposit" element={<Deposit />} />
+              <Route path="/escrow/:escrowId/status" element={<Status />} />
+              <Route path="/escrow/:escrowId/completion" element={<Completion />} />
+              {/* Legacy routes for backward compatibility */}
               <Route path="/deposit" element={<Deposit />} />
               <Route path="/status" element={<Status />} />
               <Route path="/completion" element={<Completion />} />

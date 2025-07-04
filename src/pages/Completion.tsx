@@ -1,19 +1,26 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
+import { useEscrow } from "@/hooks/useEscrow";
+import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 
 const Completion = () => {
   const [searchParams] = useSearchParams();
+  const { escrowId: urlEscrowId } = useParams();
   const [countdown, setCountdown] = useState(10);
   
-  const escrowId = searchParams.get("escrow");
+  const escrowId = urlEscrowId || searchParams.get("escrow");
   const status = searchParams.get("status");
+  
+  // Load escrow data and apply theming
+  const { escrowData, loading, error } = useEscrow(escrowId);
+  usePartnerTheme(escrowData?.partnerBranding);
 
-  // Mock partner redirect URL
-  const partnerUrl = "https://flippa.com";
+  // Get partner redirect URL from escrow data or fallback
+  const partnerUrl = escrowData?.partnerBranding?.redirectUrl || escrowData?.redirectUrl || "https://flippa.com";
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -37,7 +44,7 @@ const Completion = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="text-center mb-8">
@@ -135,7 +142,7 @@ const Completion = () => {
                   onClick={handleRedirectNow}
                   className="w-full sm:w-auto"
                 >
-                  Return to Flippa
+                  Return to {escrowData?.partnerBranding?.name || "Partner"}
                 </Button>
                 <Button 
                   variant="outline"

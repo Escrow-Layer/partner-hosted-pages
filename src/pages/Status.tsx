@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Timeline from "@/components/Timeline";
 import Header from "@/components/Header";
+import MilestoneTracker from "@/components/MilestoneTracker";
+import { useEscrow } from "@/hooks/useEscrow";
+import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 
 export type EscrowStatus = "initiated" | "funded" | "locked" | "released" | "refunded";
 
@@ -18,10 +21,15 @@ interface StatusUpdate {
 const Status = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { escrowId: urlEscrowId } = useParams();
   const [currentStatus, setCurrentStatus] = useState<EscrowStatus>("initiated");
   const [statusHistory, setStatusHistory] = useState<StatusUpdate[]>([]);
 
-  const escrowId = searchParams.get("escrow");
+  const escrowId = urlEscrowId || searchParams.get("escrow");
+  
+  // Load escrow data and apply theming
+  const { escrowData, loading, error } = useEscrow(escrowId);
+  usePartnerTheme(escrowData?.partnerBranding);
 
   // Simulate status progression
   useEffect(() => {
@@ -49,7 +57,11 @@ const Status = () => {
 
         if (newStatus === "released") {
           setTimeout(() => {
-            navigate(`/completion?escrow=${escrowId}&status=success`);
+            if (urlEscrowId) {
+              navigate(`/escrow/${urlEscrowId}/completion?status=success`);
+            } else {
+              navigate(`/completion?escrow=${escrowId}&status=success`);
+            }
           }, 3000);
         }
       } else {
@@ -84,7 +96,7 @@ const Status = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="text-center mb-8">
@@ -117,17 +129,24 @@ const Status = () => {
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Transaction Timeline</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Timeline 
-              statusHistory={statusHistory}
-              currentStatus={currentStatus}
-            />
-          </CardContent>
-        </Card>
+        {escrowData?.milestones ? (
+          <MilestoneTracker 
+            milestones={escrowData.milestones}
+            currentMilestone={escrowData.milestones.find(m => m.status === 'in_progress')?.id}
+          />
+        ) : (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Transaction Timeline</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Timeline 
+                statusHistory={statusHistory}
+                currentStatus={currentStatus}
+              />
+            </CardContent>
+          </Card>
+        )}
 
         <div className="flex flex-col gap-3">
           <Button 

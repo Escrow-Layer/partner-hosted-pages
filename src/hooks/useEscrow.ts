@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getEscrowStatus, pollDepositStatus, EscrowData } from "@/lib/api";
+import { getEscrowStatus, pollDepositStatus, EscrowData, ApiResponse } from "@/lib/api-enhanced";
 
 export const useEscrow = (escrowId: string | null) => {
   const [escrowData, setEscrowData] = useState<EscrowData | null>(null);
@@ -13,8 +13,12 @@ export const useEscrow = (escrowId: string | null) => {
     setError(null);
 
     try {
-      const data = await getEscrowStatus(escrowId);
-      setEscrowData(data);
+      const response = await getEscrowStatus(escrowId);
+      if (response.error) {
+        setError(response.error);
+      } else if (response.data) {
+        setEscrowData(response.data);
+      }
     } catch (err) {
       setError("Failed to fetch escrow data");
       console.error(err);
@@ -29,8 +33,8 @@ export const useEscrow = (escrowId: string | null) => {
 
     const interval = setInterval(async () => {
       try {
-        const hasDeposit = await pollDepositStatus(escrowId);
-        if (hasDeposit && escrowData?.status === "initiated") {
+        const response = await pollDepositStatus(escrowId);
+        if (response.data && escrowData?.status === "initiated") {
           setEscrowData(prev => prev ? { ...prev, status: "funded" } : null);
         }
       } catch (err) {

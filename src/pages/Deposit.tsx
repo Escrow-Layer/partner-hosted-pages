@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -7,39 +7,57 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import QRCodeDisplay from "@/components/QRCodeDisplay";
 import Header from "@/components/Header";
+import { useEscrow } from "@/hooks/useEscrow";
+import { usePartnerTheme } from "@/hooks/usePartnerTheme";
+import { getDepositAddress } from "@/lib/api-enhanced";
 
 const Deposit = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { escrowId: urlEscrowId } = useParams();
   const { toast } = useToast();
   const [bridgeProgress, setBridgeProgress] = useState(0);
   const [depositAddress, setDepositAddress] = useState("");
   const [isBridging, setIsBridging] = useState(false);
+  const [addressLoading, setAddressLoading] = useState(false);
 
   const chain = searchParams.get("chain");
-  const escrowId = searchParams.get("escrow");
+  const escrowId = urlEscrowId || searchParams.get("escrow");
+  
+  // Load escrow data and apply theming
+  const { escrowData, loading, error } = useEscrow(escrowId);
+  usePartnerTheme(escrowData?.partnerBranding);
 
-  // Mock deposit address generation
+  // Load deposit address from API
   useEffect(() => {
-    const generateAddress = () => {
-      switch (chain) {
-        case "ethereum":
-        case "arbitrum":
-        case "base":
-          return "0x742d35Cc6634C0532925a3b8D96BB44e39FcB434";
-        case "solana":
-          return "9WNL1YN8tTTvDhYgvYmPKwQNe7X7FzB3CjjhB5gNb4E3";
-        case "tron":
-          return "TLsV52sRDL79HXGGm9yzwKiW6fP9BvNisr";
-        default:
-          return "";
+    const loadDepositAddress = async () => {
+      if (!chain || !escrowId) return;
+      
+      setAddressLoading(true);
+      try {
+        const response = await getDepositAddress(escrowId, chain);
+        if (response.error) {
+          toast({
+            title: "Error",
+            description: response.error,
+            variant: "destructive",
+          });
+        } else if (response.data) {
+          setDepositAddress(response.data.address);
+        }
+      } catch (err) {
+        toast({
+          title: "Error",
+          description: "Failed to generate deposit address",
+          variant: "destructive",
+        });
+      } finally {
+        setAddressLoading(false);
       }
     };
 
-    if (chain) {
-      setDepositAddress(generateAddress());
-    }
-  }, [chain]);
+    loadDepositAddress();
+  }, [chain, escrowId, toast]);
 
   // Simulate bridging progress
   useEffect(() => {
@@ -48,7 +66,11 @@ const Deposit = () => {
         setBridgeProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            navigate(`/status?escrow=${escrowId}`);
+            if (urlEscrowId) {
+              navigate(`/escrow/${urlEscrowId}/status`);
+            } else {
+              navigate(`/status?escrow=${escrowId}`);
+            }
             return 100;
           }
           return prev + Math.random() * 10;
@@ -76,7 +98,11 @@ const Deposit = () => {
   };
 
   const handleSwitchChain = () => {
-    navigate(`/?escrow=${escrowId}`);
+    if (urlEscrowId) {
+      navigate(`/escrow/${urlEscrowId}`);
+    } else {
+      navigate(`/?escrow=${escrowId}`);
+    }
   };
 
   // Mock chain info
@@ -103,7 +129,7 @@ const Deposit = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="text-center mb-8">
@@ -123,25 +149,37 @@ const Deposit = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <QRCodeDisplay address={depositAddress} />
-            
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Deposit Address:</span>
-                <Button 
-                  onClick={handleCopyAddress}
-                  variant="outline" 
-                  size="sm"
-                >
-                  Copy
-                </Button>
+            {addressLoading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
-              <div className="bg-muted p-3 rounded-md">
-                <code className="text-sm font-mono break-all">
-                  {depositAddress}
-                </code>
+            ) : depositAddress ? (
+              <>
+                <QRCodeDisplay address={depositAddress} />
+                
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Deposit Address:</span>
+                    <Button 
+                      onClick={handleCopyAddress}
+                      variant="outline" 
+                      size="sm"
+                    >
+                      Copy
+                    </Button>
+                  </div>
+                  <div className="bg-muted p-3 rounded-md">
+                    <code className="text-sm font-mono break-all">
+                      {depositAddress}
+                    </code>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Failed to generate deposit address</p>
               </div>
-            </div>
+            )}
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>

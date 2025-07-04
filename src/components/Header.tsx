@@ -1,15 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import { PartnerBranding } from "@/lib/api-enhanced";
 
-const Header = () => {
+interface HeaderProps {
+  partnerBranding?: PartnerBranding;
+}
+
+const Header = ({ partnerBranding }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Mock partner data - would be loaded from API based on subdomain/URL
-  const partnerData = {
+  // Use provided partner branding or fallback to default
+  const partnerData = partnerBranding || {
     name: "Flippa",
-    logo: "/placeholder.svg", // Would be dynamic URL from API
+    logo: "/placeholder.svg",
+    primaryColor: "#000000",
+    secondaryColor: "#333333",
+    accentColor: "#666666",
+    redirectUrl: "https://flippa.com",
   };
 
   useEffect(() => {
