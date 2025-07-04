@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import DynamicForm from "@/components/DynamicForm";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
@@ -82,23 +83,24 @@ const Landing = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-      <Header partnerBranding={escrowData?.partnerBranding} />
-        <main className="container mx-auto px-4 py-8 max-w-2xl">
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header partnerBranding={escrowData?.partnerBranding} />
+        <main className="container mx-auto px-4 py-8 max-w-2xl flex-1">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">Loading escrow details...</p>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
 
   if (!escrowData) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="container mx-auto px-4 py-8 max-w-2xl">
+        <main className="container mx-auto px-4 py-8 max-w-2xl flex-1">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Escrow Not Found</h1>
             <p className="text-muted-foreground mb-4">
@@ -107,6 +109,7 @@ const Landing = () => {
             <Button onClick={() => navigate('/')}>Go Home</Button>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -114,9 +117,9 @@ const Landing = () => {
   // Show custom fields form if needed
   if (showCustomFields) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-8 max-w-2xl">
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header partnerBranding={escrowData?.partnerBranding} />
+        <main className="container mx-auto px-4 py-8 max-w-2xl flex-1">
           <div className="mb-6">
             <h1 className="text-3xl font-bold tracking-tight mb-2">
               Additional Information Required
@@ -135,48 +138,75 @@ const Landing = () => {
             submitLabel={`Continue with ${selectedChain}`}
           />
         </main>
+        <Footer partnerBranding={escrowData?.partnerBranding} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Secure Escrow Transaction
+            Secure Premium Domain Escrow
           </h1>
-          <p className="text-muted-foreground">
-            Review the transaction details and select your preferred blockchain
+          <p className="text-muted-foreground mb-4">
+            Complete your business.com acquisition with blockchain-secured escrow
           </p>
+          <div className="flex flex-wrap justify-center gap-2 text-sm">
+            <div className="bg-success/10 text-success px-3 py-1 rounded-full">
+              ✓ Blockchain Secured
+            </div>
+            <div className="bg-success/10 text-success px-3 py-1 rounded-full">
+              ✓ Instant Verification
+            </div>
+            <div className="bg-success/10 text-success px-3 py-1 rounded-full">
+              ✓ Protected Transfer
+            </div>
+          </div>
         </div>
 
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              Deal Summary
+              Premium Domain Acquisition
               <Badge variant="secondary">#{escrowData.id}</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Amount:</span>
-                <p className="font-semibold">{escrowData.amount} {escrowData.asset}</p>
+            <div className="space-y-4">
+              <div className="bg-accent/50 p-4 rounded-lg">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary mb-1">
+                    {Number(escrowData.amount).toLocaleString()} {escrowData.asset}
+                  </div>
+                  <div className="text-sm text-muted-foreground">Transaction Value</div>
+                </div>
               </div>
-              <div>
-                <span className="text-muted-foreground">Asset:</span>
-                <p className="font-semibold">{escrowData.asset}</p>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Buyer:</span>
-                <p className="font-mono text-xs">{escrowData.buyer}</p>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Seller:</span>
-                <p className="font-mono text-xs">{escrowData.seller}</p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <div>
+                    <span className="text-muted-foreground">Buyer:</span>
+                    <p className="font-medium break-all">{escrowData.buyer}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Payment Method:</span>
+                    <p className="font-medium">{escrowData.asset} (Stablecoin)</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div>
+                    <span className="text-muted-foreground">Seller:</span>
+                    <p className="font-medium break-all">{escrowData.seller}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Asset Type:</span>
+                    <p className="font-medium">Premium Domain</p>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -208,12 +238,15 @@ const Landing = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Select Blockchain</CardTitle>
+            <CardTitle>Choose Payment Network</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Select the blockchain network for your USDC payment. Lower fees = faster transaction.
+            </p>
           </CardHeader>
           <CardContent className="space-y-6">
             <Select value={selectedChain} onValueChange={setSelectedChain}>
               <SelectTrigger>
-                <SelectValue placeholder="Choose your preferred blockchain" />
+                <SelectValue placeholder="Choose your preferred payment network" />
               </SelectTrigger>
               <SelectContent>
                 {SUPPORTED_CHAINS.map((chain) => (
@@ -235,11 +268,31 @@ const Landing = () => {
               className="w-full"
               size="lg"
             >
-              Continue to Deposit
+              Secure Payment - Continue to Deposit
             </Button>
           </CardContent>
         </Card>
+        
+        <div className="mt-8 p-4 bg-muted/50 rounded-lg">
+          <h3 className="font-semibold mb-2">Why Choose EscrowLayer?</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <strong>• Blockchain Security:</strong> Smart contracts ensure automatic, secure transactions
+            </div>
+            <div>
+              <strong>• Instant Verification:</strong> Real-time transaction monitoring and confirmations
+            </div>
+            <div>
+              <strong>• Domain Expertise:</strong> Specialized in high-value digital asset transfers
+            </div>
+            <div>
+              <strong>• 24/7 Support:</strong> Expert assistance throughout your transaction
+            </div>
+          </div>
+        </div>
       </main>
+      
+      <Footer partnerBranding={escrowData?.partnerBranding} />
     </div>
   );
 };

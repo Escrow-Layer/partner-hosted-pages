@@ -37,11 +37,6 @@ const Header = ({ partnerBranding }: HeaderProps) => {
             />
             <span className="font-semibold text-lg">{partnerData.name}</span>
           </div>
-          <div className="hidden sm:block h-6 w-px bg-border" />
-          <div className="hidden sm:flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Powered by</span>
-            <span className="font-semibold text-sm">EscrowLayer</span>
-          </div>
         </div>
 
         <nav className="flex items-center gap-4">
