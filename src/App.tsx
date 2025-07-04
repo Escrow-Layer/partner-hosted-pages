@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import Index from "./pages/Index";
 import Landing from "./pages/Landing";
 import Deposit from "./pages/Deposit";
 import Status from "./pages/Status";
@@ -23,7 +24,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Landing />} />
+              <Route path="/" element={<Index />} />
               <Route path="/escrow/:escrowId" element={<Landing />} />
               <Route path="/escrow/:escrowId/deposit" element={<Deposit />} />
               <Route path="/escrow/:escrowId/status" element={<Status />} />
