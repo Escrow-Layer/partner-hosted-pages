@@ -143,118 +143,127 @@ const Deposit = () => {
     <div className="min-h-screen bg-background">
       <Header partnerBranding={escrowData?.partnerBranding} />
       
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Deal Summary - Always at top */}
-        <div className="mb-6">
-          {escrowData && (
-            <DealSummary escrowData={escrowData} />
-          )}
-        </div>
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Left Column */}
+          <div className="lg:col-span-2">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold tracking-tight mb-2">
+                Send Your Payment
+              </h1>
+              <p className="text-muted-foreground">
+                Send your payment to complete the secure escrow transaction
+              </p>
+            </div>
 
-        {/* Status Bar */}
-        <div className="mb-8">
-          <StatusBar 
-            currentStep={currentStep} 
-            bridgeProgress={bridgeProgress}
-          />
-        </div>
-        
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Send Your Payment
-          </h1>
-          <p className="text-muted-foreground">
-            Send your payment to complete the secure escrow transaction
-          </p>
-        </div>
-
-        <div className="max-w-2xl mx-auto space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                Payment Address
-                <Badge variant="secondary">{chainInfo.name}</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {addressLoading ? (
-                <div className="flex justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              ) : depositAddress ? (
-                <>
-                  <QRCodeDisplay address={depositAddress} />
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Send payment to:</span>
-                      <Button 
-                        onClick={handleCopyAddress}
-                        variant="outline" 
-                        size="sm"
-                      >
-                        Copy Address
-                      </Button>
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    Payment Address
+                    <Badge variant="secondary">{chainInfo.name}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {addressLoading ? (
+                    <div className="flex justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                     </div>
-                    <div className="bg-muted p-3 rounded-md">
-                      <code className="text-sm font-mono break-all">
-                        {depositAddress}
-                      </code>
+                  ) : depositAddress ? (
+                    <>
+                      <QRCodeDisplay address={depositAddress} />
+                      
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">Send payment to:</span>
+                          <Button 
+                            onClick={handleCopyAddress}
+                            variant="outline" 
+                            size="sm"
+                          >
+                            Copy Address
+                          </Button>
+                        </div>
+                        <div className="bg-muted p-3 rounded-md">
+                          <code className="text-sm font-mono break-all">
+                            {depositAddress}
+                          </code>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-muted-foreground">Failed to generate payment address</p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-4 text-sm bg-muted/30 p-3 rounded-lg">
+                    <div>
+                      <span className="text-muted-foreground">Network:</span>
+                      <p className="font-semibold">{chainInfo.name}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Est. Fee:</span>
+                      <p className="font-semibold">{chainInfo.estimatedFee}</p>
                     </div>
                   </div>
-                </>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">Failed to generate payment address</p>
-                </div>
+                </CardContent>
+              </Card>
+
+              {isBridging && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Processing Payment</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Processing Progress</span>
+                        <span>{Math.round(bridgeProgress)}%</span>
+                      </div>
+                      <Progress value={bridgeProgress} className="h-2" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Your payment is being processed. Please wait while we confirm the transaction.
+                    </p>
+                  </CardContent>
+                </Card>
               )}
 
-              <div className="grid grid-cols-2 gap-4 text-sm bg-muted/30 p-3 rounded-lg">
-                <div>
-                  <span className="text-muted-foreground">Network:</span>
-                  <p className="font-semibold">{chainInfo.name}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Est. Fee:</span>
-                  <p className="font-semibold">{chainInfo.estimatedFee}</p>
+              <div className="flex flex-col gap-3">
+                <Button 
+                  onClick={handleSwitchChain}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Change Payment Network
+                </Button>
+                
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground">
+                    Transaction details will appear once payment is confirmed
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          {isBridging && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Processing Payment</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Processing Progress</span>
-                    <span>{Math.round(bridgeProgress)}%</span>
-                  </div>
-                  <Progress value={bridgeProgress} className="h-2" />
+          {/* Right Column - Transaction Summary */}
+          <div className="lg:col-span-1">
+            <div className="space-y-4 lg:sticky lg:top-8">
+              {escrowData && (
+                <div className="opacity-90">
+                  <DealSummary escrowData={escrowData} className="scale-95" />
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Your payment is being processed. Please wait while we confirm the transaction.
-                </p>
-              </CardContent>
-            </Card>
-          )}
-
-          <div className="flex flex-col gap-3">
-            <Button 
-              onClick={handleSwitchChain}
-              variant="outline"
-              className="w-full"
-            >
-              Change Payment Network
-            </Button>
-            
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground">
-                Transaction details will appear once payment is confirmed
-              </p>
+              )}
+              
+              <div className="opacity-90">
+                <StatusBar 
+                  currentStep={currentStep} 
+                  bridgeProgress={bridgeProgress}
+                  className="scale-95"
+                />
+              </div>
             </div>
           </div>
         </div>
