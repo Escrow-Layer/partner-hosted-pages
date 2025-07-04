@@ -5,12 +5,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import DynamicForm from "@/components/DynamicForm";
 import EscrowHeader from "@/components/EscrowHeader";
-import TransactionDetails from "@/components/TransactionDetails";
+import DomainPurchaseSummary from "@/components/DomainPurchaseSummary";
 import ChainSelector from "@/components/ChainSelector";
 import TrustIndicators from "@/components/TrustIndicators";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-
-import StatusBar from "@/components/StatusBar";
 import HelpButton from "@/components/HelpButton";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
@@ -162,17 +160,8 @@ const Landing = () => {
       <Header partnerBranding={escrowData?.partnerBranding} />
       
       <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl touch-manipulation">
-        <div className="animate-fade-in">
-          <StatusBar currentStep="waiting" className="mb-6" />
-          
-          <EscrowHeader 
-            title="Secure Premium Domain Escrow"
-            description="Complete your business.com acquisition with blockchain-secured escrow"
-          />
-        </div>
-
-        <div className="space-y-4 sm:space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <TransactionDetails escrowData={escrowData} />
+        <div className="space-y-6 animate-fade-in">
+          <DomainPurchaseSummary escrowData={escrowData} />
 
           {/* Enhanced payment section with improved mobile layout */}
           <div className="relative group">

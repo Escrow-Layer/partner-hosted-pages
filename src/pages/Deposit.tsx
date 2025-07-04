@@ -143,114 +143,121 @@ const Deposit = () => {
     <div className="min-h-screen bg-background">
       <Header partnerBranding={escrowData?.partnerBranding} />
       
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="space-y-4 mb-8">
-          {escrowData && (
-            <DealSummary escrowData={escrowData} />
-          )}
-          
-          <StatusBar 
-            currentStep={currentStep} 
-            bridgeProgress={bridgeProgress}
-          />
-          
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight mb-2">
-              Send {chainInfo.symbol} Deposit
-            </h1>
-            <p className="text-muted-foreground">
-              Send your deposit to the address below to continue the escrow
-            </p>
-          </div>
-        </div>
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2 space-y-6">
+            <StatusBar 
+              currentStep={currentStep} 
+              bridgeProgress={bridgeProgress}
+            />
+            
+            <div className="text-center">
+              <h1 className="text-3xl font-bold tracking-tight mb-2">
+                Send Your Payment
+              </h1>
+              <p className="text-muted-foreground">
+                Send your payment to complete the secure escrow transaction
+              </p>
+            </div>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              Deposit Address
-              <Badge variant="secondary">{chainInfo.name}</Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {addressLoading ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            ) : depositAddress ? (
-              <>
-                <QRCodeDisplay address={depositAddress} />
-                
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Deposit Address:</span>
-                    <Button 
-                      onClick={handleCopyAddress}
-                      variant="outline" 
-                      size="sm"
-                    >
-                      Copy
-                    </Button>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Payment Address
+                  <Badge variant="secondary">{chainInfo.name}</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {addressLoading ? (
+                  <div className="flex justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                   </div>
-                  <div className="bg-muted p-3 rounded-md">
-                    <code className="text-sm font-mono break-all">
-                      {depositAddress}
-                    </code>
+                ) : depositAddress ? (
+                  <>
+                    <QRCodeDisplay address={depositAddress} />
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Send payment to:</span>
+                        <Button 
+                          onClick={handleCopyAddress}
+                          variant="outline" 
+                          size="sm"
+                        >
+                          Copy Address
+                        </Button>
+                      </div>
+                      <div className="bg-muted p-3 rounded-md">
+                        <code className="text-sm font-mono break-all">
+                          {depositAddress}
+                        </code>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">Failed to generate payment address</p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-4 text-sm bg-muted/30 p-3 rounded-lg">
+                  <div>
+                    <span className="text-muted-foreground">Network:</span>
+                    <p className="font-semibold">{chainInfo.name}</p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Est. Fee:</span>
+                    <p className="font-semibold">{chainInfo.estimatedFee}</p>
                   </div>
                 </div>
-              </>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground">Failed to generate deposit address</p>
-              </div>
+              </CardContent>
+            </Card>
+
+            {isBridging && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Processing Payment</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Processing Progress</span>
+                      <span>{Math.round(bridgeProgress)}%</span>
+                    </div>
+                    <Progress value={bridgeProgress} className="h-2" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Your payment is being processed. Please wait while we confirm the transaction.
+                  </p>
+                </CardContent>
+              </Card>
             )}
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Network:</span>
-                <p className="font-semibold">{chainInfo.name}</p>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Network Fee:</span>
-                <p className="font-semibold">{chainInfo.estimatedFee}</p>
+            <div className="flex flex-col gap-3">
+              <Button 
+                onClick={handleSwitchChain}
+                variant="outline"
+                className="w-full"
+              >
+                Change Payment Network
+              </Button>
+              
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">
+                  Transaction details will appear once payment is confirmed
+                </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {isBridging && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Processing Transaction</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Bridging Progress</span>
-                  <span>{Math.round(bridgeProgress)}%</span>
-                </div>
-                <Progress value={bridgeProgress} className="h-2" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Your transaction is being processed and verified on the blockchain.
-                This may take a few minutes.
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        <div className="flex flex-col gap-3">
-          <Button 
-            onClick={handleSwitchChain}
-            variant="outline"
-            className="w-full"
-          >
-            Switch Chain
-          </Button>
+          </div>
           
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              Explorer link will appear once transaction is confirmed
-            </p>
+          {/* Right Sidebar - Deal Summary */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-4">
+              {escrowData && (
+                <DealSummary escrowData={escrowData} />
+              )}
+            </div>
           </div>
         </div>
       </main>
