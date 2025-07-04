@@ -1,73 +1,49 @@
-# Welcome to your Lovable project
+# EscrowLayer — Hosted Escrow Flow & Partner Admin
 
-## Project info
+This repository contains the source code for EscrowLayer's white-label, hosted escrow pages and the partner admin dashboard.
 
-**URL**: https://lovable.dev/projects/c147f42a-9bea-476e-825d-c26bfd4c4573
+## 🌐 Hosted Escrow Flow
 
-## How can I edit this code?
+- **URL Pattern:** `/escrow/{escrowId}`
+- Allows buyers and sellers to securely complete escrow transactions in a fully branded, partner-specific UI.
+- Features:
+  - Deal summary, custom form fields, chain/network selector
+  - QR code and address for deposits (EVM, Solana, Tron)
+  - Milestones, countdown timers, dispute/help module
+  - Mobile-first, WCAG 2.1 accessible, fully responsive
+  - Branding (logo, colors, fonts) and custom domains (CNAME support)
 
-There are several ways of editing your application.
+## 🛠️ Partner Admin Dashboard
 
-**Use Lovable**
+- **URL:** `/admin`
+- Allows integration partners to manage:
+  - Brand settings (logo, colors, domain)
+  - Subdomain/CNAME mapping (e.g., `crypto.partner.com`)
+  - Payout wallet address and commission settings
+  - Business information and platform intro
+  - Product/asset types and default networks/currencies
+  - Workflow options (milestones, disputes, webhooks, API keys)
+  - Live preview of branding and appearance
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c147f42a-9bea-476e-825d-c26bfd4c4573) and start prompting.
+## 🚀 Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Clone this repository**
+2. **Install dependencies:**  
+   `npm install`
+3. **Run the development server:**  
+   `npm run dev`
+4. Access hosted flow pages at `http://localhost:3000/escrow/{escrowId}`  
+   Access admin panel at `http://localhost:3000/admin`
 
-**Use your preferred IDE**
+## 📄 Documentation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- See `/docs` folder or [EscrowLayer Partner Docs](https://escrowlayer.io/docs) for API and integration details.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 💡 Notes
 
-Follow these steps:
+- Built with a modern, monochrome UI (black/white/gray), customizable per partner.
+- Inspired by Stripe Checkout and Escrow.com best practices for hosted escrow.
+- Supports full white-label experience via CNAME and dynamic branding.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c147f42a-9bea-476e-825d-c26bfd4c4573) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
