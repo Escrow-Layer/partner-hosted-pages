@@ -3,44 +3,52 @@ import { Shield, CheckCircle, Users, Clock } from "lucide-react";
 const TrustIndicators = () => {
   return (
     <div className="mt-6 sm:mt-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="flex items-center gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted/70 hover:scale-[1.02]">
-          <div className="p-2 bg-primary/10 rounded-full flex-shrink-0">
-            <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="text-center space-y-2">
+          <div className="p-3 bg-muted/30 rounded-full w-fit mx-auto">
+            <Shield className="h-6 w-6 text-muted-foreground" />
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">Blockchain-Based</p>
-            <p className="text-xs text-muted-foreground">Smart contract technology</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted/70 hover:scale-[1.02]">
-          <div className="p-2 bg-success/10 rounded-full flex-shrink-0">
-            <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-success" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">SSL Protected</p>
-            <p className="text-xs text-muted-foreground">Industry-standard encryption</p>
+          <div>
+            <p className="font-semibold text-sm">Blockchain</p>
+            <p className="font-semibold text-sm">Secured</p>
+            <p className="text-xs text-muted-foreground mt-1">Smart contract</p>
+            <p className="text-xs text-muted-foreground">escrow</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted/70 hover:scale-[1.02]">
-          <div className="p-2 bg-primary/10 rounded-full flex-shrink-0">
-            <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+        <div className="text-center space-y-2">
+          <div className="p-3 bg-muted/30 rounded-full w-fit mx-auto">
+            <CheckCircle className="h-6 w-6 text-muted-foreground" />
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">Business-Ready</p>
-            <p className="text-xs text-muted-foreground">Professional platform</p>
+          <div>
+            <p className="font-semibold text-sm">Verified</p>
+            <p className="font-semibold text-sm">Secure</p>
+            <p className="text-xs text-muted-foreground mt-1">SSL & audit</p>
+            <p className="text-xs text-muted-foreground">certified</p>
+          </div>
+        </div>
+        
+        <div className="text-center space-y-2">
+          <div className="p-3 bg-muted/30 rounded-full w-fit mx-auto">
+            <Users className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <div>
+            <p className="font-semibold text-sm">10,000+</p>
+            <p className="font-semibold text-sm">Transactions</p>
+            <p className="text-xs text-muted-foreground mt-1">Trusted by</p>
+            <p className="text-xs text-muted-foreground">businesses</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted/70 hover:scale-[1.02]">
-          <div className="p-2 bg-warning/10 rounded-full flex-shrink-0">
-            <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-warning" />
+        <div className="text-center space-y-2">
+          <div className="p-3 bg-muted/30 rounded-full w-fit mx-auto">
+            <Clock className="h-6 w-6 text-muted-foreground" />
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm sm:text-base">Support Available</p>
-            <p className="text-xs text-muted-foreground">Technical assistance</p>
+          <div>
+            <p className="font-semibold text-sm">24/7</p>
+            <p className="font-semibold text-sm">Support</p>
+            <p className="text-xs text-muted-foreground mt-1">Expert</p>
+            <p className="text-xs text-muted-foreground">assistance</p>
           </div>
         </div>
       </div>
