@@ -11,9 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import AdminHeader from "@/components/admin/AdminHeader";
 import HelpTooltip from "@/components/admin/HelpTooltip";
 import SaveBar from "@/components/admin/SaveBar";
-import FormSection from "@/components/admin/FormSection";
-import FieldValidation from "@/components/admin/FieldValidation";
-import { useFormValidation, validationRules } from "@/hooks/useFormValidation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Eye, 
@@ -108,61 +105,25 @@ const Admin = () => {
 
   const hasChanges = JSON.stringify(config) !== JSON.stringify(originalConfig);
 
-  // Form validation
-  const { errors, validateField, validateForm, clearFieldError, setFieldError } = useFormValidation({
-    name: { required: true, minLength: 2 },
-    logo: { ...validationRules.url },
-    redirectUrl: { ...validationRules.url },
-    payoutWallet: { ...validationRules.walletAddress },
-    contactEmail: { ...validationRules.email },
-    commissionRate: { ...validationRules.percentage }
-  });
-
   const sellingItemOptions = [
     "Domains", "Websites", "NFTs", "Invoices", "Digital Art", 
     "Services", "Ebooks/Content", "SaaS Licenses", "Consulting", "Physical Goods"
   ];
 
   const handleSave = async () => {
-    // Validate form before saving
-    if (!validateForm(config)) {
-      toast({
-        title: "Validation Error",
-        description: "Please fix the errors before saving.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsSaving(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setOriginalConfig({ ...config });
-      toast({
-        title: "Configuration Saved",
-        description: "All changes have been saved successfully.",
-      });
-    } catch (error) {
-      toast({
-        title: "Save Failed",
-        description: "There was an error saving your configuration.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSaving(false);
-    }
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setOriginalConfig({ ...config });
+    setIsSaving(false);
+    toast({
+      title: "Configuration Saved",
+      description: "All changes have been saved successfully.",
+    });
   };
 
   const updateConfig = (field: keyof PartnerConfig, value: any) => {
     setConfig(prev => ({ ...prev, [field]: value }));
-    // Clear field error when user starts typing
-    clearFieldError(field);
-    // Validate field in real-time
-    const error = validateField(field, value);
-    if (error) {
-      setFieldError(field, error);
-    }
   };
 
   const addWebhook = () => {
@@ -223,63 +184,59 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-            <TabsTrigger value="basic" className="flex items-center gap-2 text-xs md:text-sm">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="basic" className="flex items-center gap-2">
               <Building className="h-4 w-4" />
-              <span className="hidden sm:inline">Basic Settings</span>
-              <span className="sm:hidden">Basic</span>
+              Basic Settings
             </TabsTrigger>
-            <TabsTrigger value="payment" className="flex items-center gap-2 text-xs md:text-sm">
+            <TabsTrigger value="payment" className="flex items-center gap-2">
               <Wallet className="h-4 w-4" />
-              <span className="hidden sm:inline">Payment & Wallet</span>
-              <span className="sm:hidden">Payment</span>
+              Payment & Wallet
             </TabsTrigger>
-            <TabsTrigger value="branding" className="flex items-center gap-2 text-xs md:text-sm">
+            <TabsTrigger value="branding" className="flex items-center gap-2">
               <Palette className="h-4 w-4" />
-              <span className="hidden sm:inline">Branding</span>
-              <span className="sm:hidden">Brand</span>
+              Branding
             </TabsTrigger>
-            <TabsTrigger value="advanced" className="flex items-center gap-2 text-xs md:text-sm">
+            <TabsTrigger value="advanced" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Advanced</span>
-              <span className="sm:hidden">More</span>
+              Advanced
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="basic" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Brand Identity */}
-              <FormSection
-                title="Brand Identity"
-                icon={Building}
-                helpText="Configure your platform's branding and identity settings"
-              >
-                <div>
-                  <Label htmlFor="partner-name">Partner Name</Label>
-                  <Input
-                    id="partner-name"
-                    value={config.name}
-                    onChange={(e) => updateConfig("name", e.target.value)}
-                    placeholder="Enter your platform name"
-                    className={errors.name ? "border-destructive" : ""}
-                  />
-                  <FieldValidation error={errors.name} />
-                </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building className="h-5 w-5" />
+                    Brand Identity
+                    <HelpTooltip content="Configure your platform's branding and identity settings" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="partner-name">Partner Name</Label>
+                    <Input
+                      id="partner-name"
+                      value={config.name}
+                      onChange={(e) => updateConfig("name", e.target.value)}
+                      placeholder="Enter your platform name"
+                    />
+                  </div>
                   
-                <div>
-                  <Label htmlFor="logo-url" className="flex items-center gap-2">
-                    Logo URL
-                    <HelpTooltip content="Direct URL to your logo image. Recommended size: 200x200px" />
-                  </Label>
-                  <Input
-                    id="logo-url"
-                    value={config.logo}
-                    onChange={(e) => updateConfig("logo", e.target.value)}
-                    placeholder="https://yoursite.com/logo.png"
-                    className={errors.logo ? "border-destructive" : ""}
-                  />
-                  <FieldValidation error={errors.logo} />
-                </div>
+                  <div>
+                    <Label htmlFor="logo-url" className="flex items-center gap-2">
+                      Logo URL
+                      <HelpTooltip content="Direct URL to your logo image. Recommended size: 200x200px" />
+                    </Label>
+                    <Input
+                      id="logo-url"
+                      value={config.logo}
+                      onChange={(e) => updateConfig("logo", e.target.value)}
+                      placeholder="https://yoursite.com/logo.png"
+                    />
+                  </div>
                   
                   <div>
                     <Label htmlFor="redirect-url" className="flex items-center gap-2">
@@ -306,7 +263,8 @@ const Admin = () => {
                       placeholder="escrow.yoursite.com"
                     />
                   </div>
-              </FormSection>
+                </CardContent>
+              </Card>
 
               {/* Business Information */}
               <Card>
@@ -779,20 +737,20 @@ const Admin = () => {
                   </div>
                 </div>
                 
-                  <div>
-                    <Label className="flex items-center gap-2">
-                      API Key Management
-                      <HelpTooltip content="API key for programmatic access to escrow functions" />
-                    </Label>
-                    <div className="flex items-center gap-2 p-3 border rounded bg-muted/20">
-                      <Key className="h-4 w-4 text-muted-foreground" />
-                      <code className="flex-1 text-sm font-mono break-all">{config.apiKey}</code>
-                      <Button variant="outline" size="sm" onClick={regenerateApiKey}>
-                        <RefreshCw className="h-4 w-4" />
-                        <span className="hidden sm:inline ml-2">Regenerate</span>
-                      </Button>
-                    </div>
+                <div>
+                  <Label className="flex items-center gap-2">
+                    API Key Management
+                    <HelpTooltip content="API key for programmatic access to escrow functions" />
+                  </Label>
+                  <div className="flex items-center gap-2 p-3 border rounded">
+                    <Key className="h-4 w-4 text-muted-foreground" />
+                    <code className="flex-1 text-sm font-mono">{config.apiKey}</code>
+                    <Button variant="outline" size="sm" onClick={regenerateApiKey}>
+                      <RefreshCw className="h-4 w-4" />
+                      Regenerate
+                    </Button>
                   </div>
+                </div>
               </CardContent>
             </Card>
 
