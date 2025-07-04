@@ -87,9 +87,19 @@ const Landing = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <Header partnerBranding={escrowData?.partnerBranding} />
         <main className="container mx-auto px-4 py-8 max-w-2xl flex-1">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading escrow details...</p>
+          <div className="text-center space-y-4 animate-fade-in">
+            <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary/30 border-t-primary"></div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-muted-foreground font-medium">Loading escrow details...</p>
+              <p className="text-xs text-muted-foreground">Fetching secure transaction data</p>
+            </div>
+            <div className="flex justify-center space-x-1">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            </div>
           </div>
         </main>
         <Footer />
@@ -148,21 +158,33 @@ const Landing = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header partnerBranding={escrowData?.partnerBranding} />
       
-      <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl">
-        <EscrowHeader 
-          title="Secure Premium Domain Escrow"
-          description="Complete your business.com acquisition with blockchain-secured escrow"
-        />
+      <main className="container mx-auto px-4 py-4 sm:py-8 max-w-2xl touch-manipulation">
+        <div className="animate-fade-in">
+          <EscrowHeader 
+            title="Secure Premium Domain Escrow"
+            description="Complete your business.com acquisition with blockchain-secured escrow"
+          />
+        </div>
 
-        <TransactionDetails escrowData={escrowData} />
+        <div className="space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <TransactionDetails escrowData={escrowData} />
 
-        <ChainSelector 
-          selectedChain={selectedChain}
-          onChainChange={setSelectedChain}
-          onContinue={handleContinue}
-        />
-        
-        <TrustIndicators />
+          {/* Enhanced payment section with visual hierarchy */}
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl blur-xl transition-all duration-300 group-hover:blur-2xl"></div>
+            <div className="relative bg-card border border-primary/20 rounded-xl p-1 transition-all duration-300 hover:border-primary/30 hover:shadow-lg">
+              <ChainSelector 
+                selectedChain={selectedChain}
+                onChainChange={setSelectedChain}
+                onContinue={handleContinue}
+              />
+            </div>
+          </div>
+          
+          <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <TrustIndicators />
+          </div>
+        </div>
       </main>
       
       <Footer partnerBranding={escrowData?.partnerBranding} />

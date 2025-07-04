@@ -31,15 +31,15 @@ const Status = () => {
   const { escrowData, loading, error } = useEscrow(escrowId);
   usePartnerTheme(escrowData?.partnerBranding);
 
-  // Simulate status progression
+  // Enhanced demo with realistic progression and auto-redirect
   useEffect(() => {
     const progressStatuses: EscrowStatus[] = ["initiated", "funded", "locked", "released"];
     let currentIndex = 0;
 
-    // Initial status
+    // Initial status with more realistic timing
     setStatusHistory([{
       status: "initiated",
-      timestamp: new Date(Date.now() - 300000).toISOString(), // 5 minutes ago
+      timestamp: new Date(Date.now() - 180000).toISOString(), // 3 minutes ago
     }]);
 
     const interval = setInterval(() => {
@@ -56,11 +56,19 @@ const Status = () => {
         }]);
       } else {
         clearInterval(interval);
+        // Auto-redirect to completion page after transaction is released
+        setTimeout(() => {
+          if (urlEscrowId) {
+            navigate(`/escrow/${urlEscrowId}/completion?status=success`);
+          } else {
+            navigate(`/completion?escrow=${escrowId}&status=success`);
+          }
+        }, 2000); // Wait 2 seconds after completion before redirecting
       }
-    }, 5000); // Changed to 5 seconds per step
+    }, 3000); // Faster progression - 3 seconds per step
 
     return () => clearInterval(interval);
-  }, []);
+  }, [escrowId, urlEscrowId, navigate]);
 
   const getStatusColor = (status: EscrowStatus) => {
     switch (status) {
@@ -98,24 +106,46 @@ const Status = () => {
           </p>
         </div>
 
-        <Card className="mb-6">
+        <Card className="mb-6 border-l-4 border-l-primary">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              Current Status
-              <Badge variant={getStatusColor(currentStatus) as any}>
+              <div className="flex items-center gap-3">
+                {currentStatus === "released" && (
+                  <div className="w-8 h-8 bg-success rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-success-foreground" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+                {currentStatus === "locked" && (
+                  <div className="w-8 h-8 bg-warning rounded-full flex items-center justify-center animate-pulse">
+                    <svg className="w-5 h-5 text-warning-foreground" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+                Current Status
+              </div>
+              <Badge variant={getStatusColor(currentStatus) as any} className="text-sm">
                 {currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)}
               </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-3">
               {getStatusDescription(currentStatus)}
             </p>
-            {escrowId && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Escrow ID: {escrowId}
-              </p>
+            {currentStatus === "released" && (
+              <div className="bg-success/10 border border-success/20 rounded-lg p-3 mb-3">
+                <p className="text-sm text-success font-medium">
+                  🎉 Transaction completed successfully! Redirecting to results...
+                </p>
+              </div>
             )}
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Escrow ID: {escrowId}</span>
+              <span>Processing time: ~{Math.floor((Date.now() - new Date(statusHistory[0]?.timestamp || Date.now()).getTime()) / 60000)}m</span>
+            </div>
           </CardContent>
         </Card>
 
@@ -143,8 +173,9 @@ const Status = () => {
             onClick={() => window.location.reload()}
             variant="outline"
             className="w-full"
+            disabled={currentStatus === "released"}
           >
-            Refresh Status
+            {currentStatus === "released" ? "Redirecting..." : "Refresh Status"}
           </Button>
           
           {currentStatus === "released" && (
@@ -158,13 +189,16 @@ const Status = () => {
               }}
               className="w-full"
             >
-              View Results
+              View Results Now
             </Button>
           )}
           
           <div className="text-center">
             <p className="text-xs text-muted-foreground">
-              Status updates automatically every 5 seconds
+              {currentStatus === "released" 
+                ? "Automatically redirecting to results page..." 
+                : "Status updates automatically every 3 seconds"
+              }
             </p>
           </div>
         </div>

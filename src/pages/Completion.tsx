@@ -79,79 +79,154 @@ const Completion = () => {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Transaction Summary
-              <Badge variant={isSuccess ? "default" : "destructive"}>
+              <Badge variant={isSuccess ? "default" : "destructive"} className="text-sm">
                 {isSuccess ? "Success" : "Failed"}
               </Badge>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Escrow ID:</span>
-                <p className="font-mono">{escrowId}</p>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div className="space-y-1">
+                <span className="text-muted-foreground text-xs uppercase tracking-wide">Escrow ID</span>
+                <p className="font-mono text-sm bg-muted/50 px-2 py-1 rounded">{escrowId}</p>
               </div>
-              <div>
-                <span className="text-muted-foreground">Status:</span>
+              <div className="space-y-1">
+                <span className="text-muted-foreground text-xs uppercase tracking-wide">Final Status</span>
                 <p className="font-semibold">
-                  {isSuccess ? "Released" : "Failed"}
+                  {isSuccess ? "✅ Released" : "❌ Failed"}
                 </p>
               </div>
-              <div>
-                <span className="text-muted-foreground">Completed:</span>
+              <div className="space-y-1">
+                <span className="text-muted-foreground text-xs uppercase tracking-wide">Completed</span>
                 <p className="font-medium">
                   {new Date().toLocaleString()}
                 </p>
               </div>
-              <div>
-                <span className="text-muted-foreground">Processing Time:</span>
+              <div className="space-y-1">
+                <span className="text-muted-foreground text-xs uppercase tracking-wide">Processing Time</span>
                 <p className="font-medium">~2 minutes</p>
               </div>
             </div>
 
             {isSuccess && (
-              <div className="border-t pt-4">
-                <p className="text-sm text-muted-foreground mb-2">
-                  Final Transaction Hash:
-                </p>
-                <div className="flex items-center gap-2">
-                  <code className="bg-muted px-2 py-1 rounded text-xs font-mono">
-                    0x742d35Cc6634C0532925a3b8D96BB44e39FcB434
-                  </code>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => window.open("https://etherscan.io/tx/0x742d35Cc6634C0532925a3b8D96BB44e39FcB434", "_blank")}
-                  >
-                    View
-                  </Button>
+              <>
+                <div className="border-t pt-4">
+                  <p className="text-sm text-muted-foreground mb-3 font-medium">
+                    Blockchain Transaction Details
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Transaction Hash</p>
+                        <code className="text-xs font-mono">0x742d35Cc6634C0532925a3b8D96BB44e39FcB434</code>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => window.open("https://etherscan.io/tx/0x742d35Cc6634C0532925a3b8D96BB44e39FcB434", "_blank")}
+                      >
+                        View on Etherscan
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-muted-foreground">Network:</span>
+                        <p className="font-medium">Ethereum Mainnet</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Gas Used:</span>
+                        <p className="font-medium">21,000</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+
+                <div className="border-t pt-4">
+                  <p className="text-sm text-muted-foreground mb-3 font-medium">
+                    Security & Trust Verification
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded">
+                      <div className="w-4 h-4 bg-success rounded-full flex items-center justify-center">
+                        <svg className="w-2 h-2 text-success-foreground" fill="currentColor" viewBox="0 0 8 8">
+                          <path d="M6.5 0l-1.5 1.5-1.5-1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5-1.5-1.5 1.5-1.5z"/>
+                        </svg>
+                      </div>
+                      <span>Funds Secured</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded">
+                      <div className="w-4 h-4 bg-success rounded-full flex items-center justify-center">
+                        <svg className="w-2 h-2 text-success-foreground" fill="currentColor" viewBox="0 0 8 8">
+                          <path d="M6.5 0l-1.5 1.5-1.5-1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5-1.5-1.5 1.5-1.5z"/>
+                        </svg>
+                      </div>
+                      <span>Identity Verified</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 bg-success/10 rounded">
+                      <div className="w-4 h-4 bg-success rounded-full flex items-center justify-center">
+                        <svg className="w-2 h-2 text-success-foreground" fill="currentColor" viewBox="0 0 8 8">
+                          <path d="M6.5 0l-1.5 1.5-1.5-1.5-1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5 1.5-1.5 1.5 1.5 1.5-1.5-1.5-1.5 1.5-1.5z"/>
+                        </svg>
+                      </div>
+                      <span>Contract Verified</span>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="pt-6">
-            <div className="text-center space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Redirecting to partner site in {countdown} seconds...
-              </p>
+            <div className="text-center space-y-6">
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Redirecting to partner site in {countdown} seconds...
+                </p>
+                <div className="w-full bg-muted rounded-full h-2">
+                  <div 
+                    className="bg-primary h-2 rounded-full transition-all duration-1000"
+                    style={{ width: `${((10 - countdown) / 10) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 
                   onClick={handleRedirectNow}
                   className="w-full sm:w-auto"
+                  size="lg"
                 >
-                  Return to {escrowData?.partnerBranding?.name || "Partner"}
+                  Return to {escrowData?.partnerBranding?.name || "Partner"} Now
                 </Button>
                 <Button 
                   variant="outline"
                   onClick={() => window.location.href = "/"}
                   className="w-full sm:w-auto"
+                  size="lg"
                 >
-                  New Transaction
+                  Start New Transaction
                 </Button>
               </div>
+
+              {isSuccess && (
+                <div className="border-t pt-4 space-y-3">
+                  <p className="text-sm font-medium">What's next?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-muted/50 rounded">
+                      <p className="font-medium mb-1">📧 Confirmation Email</p>
+                      <p className="text-muted-foreground">Transaction receipt sent to your email</p>
+                    </div>
+                    <div className="p-3 bg-muted/50 rounded">
+                      <p className="font-medium mb-1">🔐 Download Receipt</p>
+                      <button className="text-primary hover:underline text-xs">
+                        PDF Receipt
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
