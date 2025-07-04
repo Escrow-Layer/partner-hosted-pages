@@ -136,9 +136,20 @@ const Deposit = () => {
           <h1 className="text-3xl font-bold tracking-tight mb-2">
             Send {chainInfo.symbol} Deposit
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-4">
             Send your deposit to the address below to continue the escrow
           </p>
+          {escrowData && (
+            <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 max-w-md mx-auto">
+              <div className="text-sm text-muted-foreground mb-1">Transaction Amount</div>
+              <div className="text-3xl font-bold text-primary">
+                {escrowData.amount} {escrowData.asset}
+              </div>
+              <div className="text-sm text-muted-foreground mt-1">
+                {escrowData.description}
+              </div>
+            </div>
+          )}
         </div>
 
         <Card className="mb-6">
@@ -187,7 +198,7 @@ const Deposit = () => {
                 <p className="font-semibold">{chainInfo.name}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Est. Fee:</span>
+                <span className="text-muted-foreground">Network Fee:</span>
                 <p className="font-semibold">{chainInfo.estimatedFee}</p>
               </div>
             </div>

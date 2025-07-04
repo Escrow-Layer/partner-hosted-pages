@@ -19,26 +19,7 @@ const Completion = () => {
   const { escrowData, loading, error } = useEscrow(escrowId);
   usePartnerTheme(escrowData?.partnerBranding);
 
-  // Get partner redirect URL from escrow data or fallback
-  const partnerUrl = escrowData?.partnerBranding?.redirectUrl || escrowData?.redirectUrl || "https://flippa.com";
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          window.location.href = partnerUrl;
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [partnerUrl]);
-
-  const handleRedirectNow = () => {
-    window.location.href = partnerUrl;
-  };
+  // No automatic redirect - removed as per client request
 
   const isSuccess = status === "success";
 
@@ -179,29 +160,9 @@ const Completion = () => {
 
         <Card>
           <CardContent className="pt-6">
-            <div className="text-center space-y-6">
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Redirecting to partner site in {countdown} seconds...
-                </p>
-                <div className="w-full bg-muted rounded-full h-2">
-                  <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-1000"
-                    style={{ width: `${((10 - countdown) / 10) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-              
+            <div className="text-center space-y-6">              
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 
-                  onClick={handleRedirectNow}
-                  className="w-full sm:w-auto"
-                  size="lg"
-                >
-                  Return to {escrowData?.partnerBranding?.name || "Partner"} Now
-                </Button>
-                <Button 
-                  variant="outline"
                   onClick={() => window.location.href = "/"}
                   className="w-full sm:w-auto"
                   size="lg"

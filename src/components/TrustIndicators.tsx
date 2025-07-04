@@ -3,11 +3,6 @@ import { Shield, CheckCircle, Users, Clock } from "lucide-react";
 const TrustIndicators = () => {
   return (
     <div className="mt-6 sm:mt-8">
-      <div className="text-center mb-4 sm:mb-6">
-        <h3 className="font-semibold text-base sm:text-lg mb-2">Why Choose EscrowLayer?</h3>
-        <p className="text-sm text-muted-foreground">Trusted by thousands of businesses worldwide</p>
-      </div>
-      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div className="flex items-center gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted/70 hover:scale-[1.02]">
           <div className="p-2 bg-primary/10 rounded-full flex-shrink-0">
