@@ -164,34 +164,6 @@ const Landing = () => {
             title="Secure Premium Domain Escrow"
             description="Complete your business.com acquisition with blockchain-secured escrow"
           />
-          
-          {/* Feature checkmarks like in the design */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-4 mb-6">
-            <div className="flex items-center gap-2 text-success text-sm">
-              <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <span className="font-medium">Blockchain-Based</span>
-            </div>
-            <div className="flex items-center gap-2 text-success text-sm">
-              <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <span className="font-medium">Instant Verification</span>
-            </div>
-            <div className="flex items-center gap-2 text-success text-sm">
-              <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <span className="font-medium">Protected Transfer</span>
-            </div>
-          </div>
         </div>
 
         <div className="space-y-4 sm:space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
