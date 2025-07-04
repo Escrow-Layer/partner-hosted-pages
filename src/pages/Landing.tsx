@@ -8,6 +8,7 @@ import EscrowHeader from "@/components/EscrowHeader";
 import TransactionDetails from "@/components/TransactionDetails";
 import ChainSelector from "@/components/ChainSelector";
 import TrustIndicators from "@/components/TrustIndicators";
+import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { useEscrow } from "@/hooks/useEscrow";
 import { usePartnerTheme } from "@/hooks/usePartnerTheme";
 import { useToast } from "@/hooks/use-toast";
@@ -17,8 +18,9 @@ const Landing = () => {
   const navigate = useNavigate();
   const { escrowId } = useParams();
   const { toast } = useToast();
-  const [selectedChain, setSelectedChain] = useState("");
+  const [selectedChain, setSelectedChain] = useState("ethereum");
   const [showCustomFields, setShowCustomFields] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // Use the actual escrow ID from URL params or fallback to demo
   const actualEscrowId = escrowId || "esc_12345";
@@ -48,6 +50,11 @@ const Landing = () => {
       return;
     }
     
+    // Show confirmation dialog before proceeding
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmProceed = () => {
     // Navigate to deposit page with new URL structure
     if (escrowId) {
       navigate(`/escrow/${escrowId}/deposit?chain=${selectedChain}`);
@@ -159,6 +166,15 @@ const Landing = () => {
       </main>
       
       <Footer partnerBranding={escrowData?.partnerBranding} />
+      
+      <ConfirmationDialog
+        open={showConfirmation}
+        onOpenChange={setShowConfirmation}
+        title="Proceed to Payment"
+        description={`You've selected ${selectedChain.charAt(0).toUpperCase() + selectedChain.slice(1)} network for your escrow payment. This action will generate a unique deposit address for your transaction.`}
+        confirmText="Generate Deposit Address"
+        onConfirm={handleConfirmProceed}
+      />
     </div>
   );
 };

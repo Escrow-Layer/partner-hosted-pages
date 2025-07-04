@@ -54,23 +54,13 @@ const Status = () => {
           txHash: `0x${Math.random().toString(16).substr(2, 64)}`,
           chainId: "ethereum",
         }]);
-
-        if (newStatus === "released") {
-          setTimeout(() => {
-            if (urlEscrowId) {
-              navigate(`/escrow/${urlEscrowId}/completion?status=success`);
-            } else {
-              navigate(`/completion?escrow=${escrowId}&status=success`);
-            }
-          }, 3000);
-        }
       } else {
         clearInterval(interval);
       }
-    }, 4000);
+    }, 5000); // Changed to 5 seconds per step
 
     return () => clearInterval(interval);
-  }, [navigate, escrowId]);
+  }, []);
 
   const getStatusColor = (status: EscrowStatus) => {
     switch (status) {
@@ -156,6 +146,21 @@ const Status = () => {
           >
             Refresh Status
           </Button>
+          
+          {currentStatus === "released" && (
+            <Button
+              onClick={() => {
+                if (urlEscrowId) {
+                  navigate(`/escrow/${urlEscrowId}/completion?status=success`);
+                } else {
+                  navigate(`/completion?escrow=${escrowId}&status=success`);
+                }
+              }}
+              className="w-full"
+            >
+              View Results
+            </Button>
+          )}
           
           <div className="text-center">
             <p className="text-xs text-muted-foreground">

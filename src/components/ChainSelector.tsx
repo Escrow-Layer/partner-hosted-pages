@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -17,13 +18,21 @@ interface ChainSelectorProps {
   onContinue: () => void;
 }
 
+const DEFAULT_CHAIN = "ethereum";
+
 const ChainSelector = ({ selectedChain, onChainChange, onContinue }: ChainSelectorProps) => {
+  // Set default chain if none selected
+  React.useEffect(() => {
+    if (!selectedChain) {
+      onChainChange(DEFAULT_CHAIN);
+    }
+  }, [selectedChain, onChainChange]);
   return (
     <Card>
       <CardHeader>
         <CardTitle>Choose Payment Network</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Select the blockchain network for your USDC payment. Lower fees = faster transaction.
+          Select the blockchain network for your USDC payment. Different networks offer varying fees and speeds - Ethereum is most secure but has higher fees, while Layer 2 solutions like Base and Arbitrum offer lower costs.
         </p>
       </CardHeader>
       <CardContent className="space-y-6">

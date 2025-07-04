@@ -35,9 +35,6 @@ const Footer = ({ partnerBranding }: FooterProps) => {
         <div className="mt-4 pt-4 border-t text-center text-xs text-muted-foreground">
           <p>
             © 2024 EscrowLayer. All transactions are secured by blockchain technology.
-            <br className="sm:hidden" />
-            <span className="hidden sm:inline"> • </span>
-            Your funds are protected by smart contract escrow.
           </p>
         </div>
       </div>
