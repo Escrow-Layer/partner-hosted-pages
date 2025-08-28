@@ -1,4 +1,5 @@
-# EscrowLayer — Hosted Escrow Flow & Partner Admin
+# EscrowLayer: Hosted Escrow Flow & Partner Admin
+Website: https://escrowlayer.io
 
 This repository contains the source code for EscrowLayer's white-label, hosted escrow pages and the partner admin dashboard.
 
